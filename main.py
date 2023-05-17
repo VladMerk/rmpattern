@@ -5,7 +5,6 @@ import os
 def remove_prefix(root_dir: str, prefix: str) -> None:
     for entry in os.listdir(root_dir):
         full_path = os.path.join(root_dir, entry)
-        print(full_path)
         if os.path.isdir(full_path):
             new_name = os.path.join(root_dir, entry.replace(prefix, "").strip())
             os.rename(os.path.join(full_path), os.path.join(new_name))
