@@ -17,6 +17,19 @@ def create_test_dir(tmp_path):
         f.write('test content')
     return test_dir
 
+@pytest.fixture()
+def create_ru_dir(tmp_path):
+    test_dir = tmp_path
+    os.makedirs(os.path.join(test_dir, 'префикс папка'))
+    os.makedirs(os.path.join(test_dir, 'префикс папка2'))
+    os.makedirs(os.path.join(test_dir, 'префикс папка2', 'префикс папка5'))
+    with open(os.path.join(test_dir, 'префикс файл'), 'w') as file:
+        file.write('Тест контент')
+    with open(os.path.join(test_dir, 'префикс папка', 'префикс файл2'), 'w') as file:
+        file.write('Тест контент')
+    with open(os.path.join(test_dir, 'префикс папка2', 'префикс папка5', 'префикс файл3'), 'w') as file:
+        file.write('Тест контент')
+    return test_dir
 
 def test_remove_prefix(create_test_dir):
     test_dir = create_test_dir
@@ -27,3 +40,13 @@ def test_remove_prefix(create_test_dir):
     assert os.path.exists(os.path.join(test_dir, 'file'))
     assert os.path.exists(os.path.join(test_dir, 'file2'))
     assert os.path.exists(os.path.join(test_dir, 'dir2', 'dir5', 'file-5'))
+
+def test_remove_ru_prefix(create_ru_dir):
+    test_dir = create_ru_dir
+    remove_prefix(test_dir, 'префикс')
+
+    assert os.path.exists(os.path.join(test_dir, 'папка'))
+    assert os.path.exists(os.path.join(test_dir, 'папка2'))
+    assert os.path.exists(os.path.join(test_dir, 'папка2', 'папка5'))
+    assert os.path.exists(os.path.join(test_dir, 'файл'))
+    assert os.path.exists(os.path.join(test_dir, 'папка2', 'папка5', 'файл3'))
