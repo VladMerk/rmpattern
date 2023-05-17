@@ -6,7 +6,7 @@ WORKDIR /usr/rmpattern
 
 COPY . .
 
-RUN pip install -U pip -r requirements.py
+RUN pip install -U pip -r requirements.txt
 
 RUN python -m pytest
 
